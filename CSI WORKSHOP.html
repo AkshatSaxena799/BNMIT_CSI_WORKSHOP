@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+  function userid_validation()
+  {
+  var uid = document.registration.userid;
+  var uid_len = uid.value.length;
+  if (uid_len == 0 || uid_len >= 12 || uid_len < 5)
+  {
+  alert("User Id should not be empty / length be between 5,12");
+  return false;
+  }
+  return true;
+  }
+
+
+// This function will validate Password.
+  function passid_validation()
+  {
+  var passid = document.registration.passid;
+  var passid_len = passid.value.length;
+  if (passid_len == 0 ||passid_len >= 12 || passid_len < 5)
+  {
+  alert("Password should not be empty / length be between 5-12");
+
+  return false;
+  }
+  return true;
+  }
+
+
+// This function will validate Name.
+  function allLetter()
+  {
+  var uname = document.registration.username;
+  var letters = /^[A-Za-z]+$/;
+  if(uname.value.match(letters))
+  {
+  return true;
+  }
+  else
+  {
+  alert('Username must have alphabet characters only');
+
+  return false;
+  }
+  }
+
+
+  // This function will validate Address.
+  function alphanumeric()
+  {
+  var uadd = document.registration.address;
+  var letters = /^[0-9a-zA-Z]+$/;
+  if(uadd.value.match(letters))
+  {
+  return true;
+  }
+  else
+  {
+  alert('User address must have alphanumeric characters only');
+  return false;
+  }
+  }
+
+
+  // This function will select country name.
+  function countryselect()
+  {
+  var ucountry = document.registration.country;
+  if(ucountry.value == "Default")
+  {
+  alert('Select your country from the list');
+  return false;
+  }
+  else
+  {
+  return true;
+  }
+  }
+
+ // This function will validate Email.
+  function ValidateEmail()
+  {
+  var uemail = document.registration.email;
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if(uemail.value.match(mailformat))
+  {
+  return true;
+  }
+  else
+  {
+  alert("You have entered an invalid email address!");
+  return false;
+  }
+  }
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	var firebaseConfig = {
+		apiKey: "AIzaSyA0IvEeM9UjJQ7vNP9E1qwgcodVp58DJFE",
+		authDomain: "myfirstproject-71a2d.firebaseapp.com",
+		databaseURL: "https://myfirstproject-71a2d-default-rtdb.firebaseio.com",
+		projectId: "myfirstproject-71a2d",
+		storageBucket: "myfirstproject-71a2d.appspot.com",
+		messagingSenderId: "53861505099",
+		appId: "1:53861505099:web:cc804b7789a4e7f6e095ce"
+	};
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  //firebase.analytics();
+
+  function writeData() {
+  	firebase.database().ref("User").push({
+  		name:document.getElementById("namefield").value,
+  		age:document.getElementById("agefield").value,
+      usn: document.getElementById("usn").value,
+      email:document.getElementById("email-id").value,
+			country:document.getElementById("country").value,
+			gender:document.getElementById("gender").value
+
+  	});
+
+  }
+
+	function getData() {
+	    firebase.database().ref("User").on('value',function(snapshot){
+	      snapshot.forEach(function(childSnapshot){
+	        var childKey=childSnapshot.key;
+	        var childData=childSnapshot.val();
+	        document.getElementById("data").innerHTML =childData['name']+','+childData['age']+','+childData['usn']+','+childData['country']+','+childData['gender'];
+
+					.
+
+	      })
+	    })
+	  }
+  //var database = firebase.database();
+   function getData2() {
+    firebase.database().ref("User").once('value', function(snapshot){
+
+
+
+            var content = '';
+            snapshot.forEach(function(childSnapshot){
+                var val = childSnapshot.val();
+                content +='<tr>';
+                content += '<td>' + val.name + '</td>';
+                content += '<td>' + val.age + '</td>';
+                content += '<td>' + val.usn + '</td>';
+								content += '<td>' + val.country + '</td>';
+								content += '<td>' + val.gender + '</td>';
+
+                content += '</tr>';
+            })
+            $('#table').append(content);
+
+    })
+ }
+
+
+
+</script>
+<style type="text/css">
+     h1{
+  color: #39ff14;
+  text-align:left;
+  }
+
+
+	h5{
+color: #39ff14;
+text-align:left;
+}
+ h2{
+  margin-left: 50px;
+  color: #39ff14 ;
+  margin-top: -20px;
+  text-align: left;
+
+  }
+
+  #form1{
+    text-align: left;
+    color: #39ff14;
+  }
+
+  body {
+  background-image: url('https://c4.wallpaperflare.com/wallpaper/502/396/897/ascii-black-dark-guy-wallpaper-preview.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  background-color: #111;
+}
+
+.right {
+  right: 0;
+	background-image: url('https://quizizz.com/media/resource/gs/quizizz-media/quizzes/69c7a3a2-f137-4682-92f1-00a0f229fc6f?w=200&h=200');
+
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+div.b {
+  right: 0;
+  width: 400px;
+  border: 3px solid grey;
+	background-color: black;
+}
+
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+</style>
+<body style="background-color:black;" color =#39ff14>
+<div class="split right">
+<div class="centered">
+<img url('https://i.stack.imgur.com/gBMMe.png?s=328&g=1')>
+<div class= "b"><h1 align=left> LEARN ETHICAL HACKING</h1>
+
+<h1>Club Membership form</h1>
+
+<h5>Name: <input type="text" placeholder="Name" id="namefield"><br></h5>
+<h5>Age: <input type="text" placeholder="Age" id="agefield"><br></h5>
+
+<h5>USN: <input type="text" id="usn" placeholder="USN"><br></h5>
+<h5>Email-Id: <input type="text" id="email-id" placeholder="email-id"><br></h5>
+<h5>Country: <select name="country" onblur="countryselect()" id="country">
+<option selected="" value="Default">(Please select your Country)</option>
+<option value="AUSTRALIA">Australia</option>
+<option value="CANADA">Canada</option>
+<option value="INDIA">India</option>
+<option value="RUSSIA">Russia</option>
+<option value="USA">USA</option>
+</select>
+</h5>
+<h5>Gender: <input type="radio" name="sex" id="gender" value="Male" checked /><span>Male</span><input type="radio" name="sex" value="Female" /><span>Female</span></h5>
+<h5>SUBMIT: <button onclick="writeData()">Submit</button><br></h5>
+<h5>GETDATA: <button onclick="getData()">Get Data</button><br></h5>
+<p id="data"></p></div>
+</body>
+</html>
